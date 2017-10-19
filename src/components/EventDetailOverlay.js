@@ -10,6 +10,42 @@ export default class EventDetailOverlay extends PureComponent {
         onClose: PropTypes.func.isRequired
     }
 
+    constructor() {
+        super();
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    }
+
+    handleOutsideClick(e) {
+        if (this.node.contains(e.target)) {
+            return;
+        }
+        this.props.onClose();
+    }
+
+    componentDidMount() {
+        document.body.classList.add('no-scroll');
+
+        document.addEventListener('keyup', (e) => {
+            if (e.keyCode === 27) this.props.onClose();
+        });
+
+        document.addEventListener('click', this.handleOutsideClick);
+
+        //component is supposed to mount immediately.
+        //setTimeout delays adding "load" class to give time for animation.
+        //not ideal, hacky way to fade-in
+        setTimeout(()=>{this.node.classList.add('event-detail-load')}, 0);
+    }
+
+    componentWillUnmount() {
+
+        document.body.classList.remove('no-scroll');
+
+        document.removeEventListener('click', this.handleOutsideClick);
+
+        this.node.classList.remove('event-detail-load');
+    }
+
     render() {
         let {event, onClose} = this.props;
         let {title, description, start, color, hours} = event;
@@ -29,24 +65,25 @@ export default class EventDetailOverlay extends PureComponent {
         // TODO: Support clicking outside of the overlay to close it
         // TODO: Support clicking ESC to close it
         return (
-            <section className="event-detail-overlay">
+            <section className="event-detail-overlay" ref={node => {this.node = node}}>
                 <div className="event-detail-overlay__container">
                     <button
                         className="event-detail-overlay__close"
                         title="Close detail view"
                         onClick={onClose}
+                        role="button"
                     />
-                    <div>
+                    <div aria-label="Event starts at">
                         {displayDateTime}
                         <span
-                            className="event-detail-overlay__color"
+                            className={`event-detail-overlay__color time-slot-event--${color}`}
                             title={`Event label color: ${color}`}
                         />
                     </div>
-                    <h1 className="event-detail-overlay__title">
+                    <h1 className="event-detail-overlay__title" aria-label="Event title">
                         {title}
                     </h1>
-                    <p>{description}</p>
+                    <p aria-label="Event description">{description}</p>
                 </div>
             </section>
         );

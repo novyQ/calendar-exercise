@@ -1,8 +1,10 @@
 import React, {PureComponent} from 'react';
 import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
-import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
+import {filterEventsByDay, getEventFromEvents} from '../utils';
 import DATA_SET from '../utils/data';
+import moment from 'moment';
+//import moment.js library to handle time
 
 import './Page.css';
 
@@ -30,7 +32,7 @@ export default class Page extends PureComponent {
         events: DATA_SET,
 
         // The currently selected day represented by numerical timestamp
-        day: Date.now(),
+        day: moment(),
 
         // The currently selected event in the agenda
         // (mainly to trigger event detail overlay)
@@ -46,11 +48,38 @@ export default class Page extends PureComponent {
     }
 
     _handlePrev() {
+
+        const newMoment = moment(this.state.day);
+        newMoment.subtract(1, "days");
+
+        this.setState({
+            day: newMoment
+        });
+
         // TODO: Update this.state.day to go back 1 day so previous button works
     }
 
     _handleNext() {
+
+        const newMoment = moment(this.state.day);
+        newMoment.add(1, "days");
+
+        this.setState({
+            day: newMoment
+        });
         // TODO: Update this.state.day to go forward 1 day so next button works
+    }
+
+    parseDate(day){
+
+        const now = moment();
+        if( now.isSame(day, "day", "month", "year" )){
+            return day.format("dddd, MMMM D, YYYY h:mm a zz");
+        }
+        else{
+            return day.format("dddd, MMMM D, YYYY");
+        }
+
     }
 
     render() {
@@ -68,17 +97,21 @@ export default class Page extends PureComponent {
             );
         }
 
+
         return (
-            <div className="page">
+            <div className="page" >
                 <header className="page__header">
                     <h1 className="page__title">Daily Agenda</h1>
                 </header>
                 <DayNavigator
-                    dateDisplay={getDisplayDate(day)}
+                    dateDisplay={this.parseDate(day)}
                     onPrev={this._handlePrev.bind(this)}
                     onNext={this._handleNext.bind(this)}
                 />
-                <Calendar events={filteredEvents} onSelectEvent={this._handleSelectEvent.bind(this)} />
+                <Calendar
+                    events={filteredEvents}
+                    onSelectEvent={this._handleSelectEvent.bind(this)}
+                    timeStamp={this.state.day}/>
                 {eventDetailOverlay}
             </div>
         );

@@ -1,0 +1,6 @@
+{
+    "plugins": [
+      "react"
+    ],
+    "extends": "eventbrite-react"
+}

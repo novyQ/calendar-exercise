@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const _HOUR_DISPLAY_MAP = [
     '12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM',
     '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM',
@@ -10,11 +12,12 @@ const _HOUR_DISPLAY_MAP = [
  * @param {Date} timestamp - The timestamp representing the day to match
  * @returns {array}
  */
-export const filterEventsByDay = (events, timestamp) => {
-    // TODO: Implement day filtering!
-
-    return events;
-}
+export const filterEventsByDay = (events, day) => (
+    events.filter( function({start}) {
+        var startDate = moment(start);
+        return startDate.isSame( day, "day", "month", "year" );
+    })// TODO: Implement day filtering!
+);
 
 /**
  * Given a list of events and an hour number, filter the events down to those that
@@ -36,11 +39,11 @@ export const filterEventsByHour = (events, hour) => (
  * @returns {string} The formatted date
  */
 export const getDisplayDate = (timestamp) => {
-    let date = new Date(timestamp);
+    let date = moment(timestamp);
 
     // TODO: Format the date like: "Tuesday, April 11, 2017"
 
-    return date.toString();
+    return date.format("dddd, MMMM D, YYYY")
 };
 
 /**
@@ -49,7 +52,19 @@ export const getDisplayDate = (timestamp) => {
  * @returns {string}
  */
 // TODO: Implement using a more programmatic approach instead of map
-export const getDisplayHour = (hour) => _HOUR_DISPLAY_MAP[hour]
+// original code (hour) => _HOUR_DISPLAY_MAP[hour]
+export const getDisplayHour = (hour) => {
+
+    if(hour === 0) {
+        return "12AM";
+    } else if(hour < 12) {
+        return hour+'AM';
+    } else if(hour === 12) {
+        return "12PM";
+    } else {
+        return (hour-12)+'PM';
+    }
+}
 
 /**
  * Given a list of events, returns the event object whose id matches the specified eventId
