@@ -5,16 +5,23 @@
 .time-slot-event {
     display: block;
     cursor: pointer;
+    text-align: left;
     border: 1px solid transparent;
+    border-radius: 0.5rem;
     padding: 0.5rem;
     font-size: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 100%;
+    width: 100%;
 }
+
+.time-slot-event-fade {
+    opacity: 0.3;
+}
+
 .time-slot-event::-moz-focus-inner {
-  border: 0;
+    border: 0;
 }
 .time-slot-event:hover,
 .time-slot-event:focus,

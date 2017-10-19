@@ -32,6 +32,7 @@
     padding: 1rem;
     background-color: #fff;
     overflow: auto;
+    border-radius: 1rem;
 }
 
 .event-detail-overlay__close {
@@ -73,5 +74,5 @@
      * TODO: Figure out how label color can match the event color instead of
      * always being black
      */
-    background-color: #000;
+
 }
