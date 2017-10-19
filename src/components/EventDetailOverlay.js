@@ -65,7 +65,7 @@ export default class EventDetailOverlay extends PureComponent {
         // TODO: Support clicking outside of the overlay to close it
         // TODO: Support clicking ESC to close it
         return (
-            <section className="event-detail-overlay" ref={ node => {this.node = node}}>
+            <section className="event-detail-overlay" ref={node => {this.node = node}}>
                 <div className="event-detail-overlay__container">
                     <button
                         className="event-detail-overlay__close"
