@@ -19,7 +19,6 @@ export default class EventDetailOverlay extends PureComponent {
         if (this.node.contains(e.target)) {
             return;
         }
-
         this.props.onClose();
     }
 
@@ -64,6 +63,7 @@ export default class EventDetailOverlay extends PureComponent {
                         className="event-detail-overlay__close"
                         title="Close detail view"
                         onClick={onClose}
+                        role="button"
                     />
                     <div>
                         {displayDateTime}
@@ -72,10 +72,10 @@ export default class EventDetailOverlay extends PureComponent {
                             title={`Event label color: ${color}`}
                         />
                     </div>
-                    <h1 className="event-detail-overlay__title">
+                    <h1 className="event-detail-overlay__title" role="title">
                         {title}
                     </h1>
-                    <p>{description}</p>
+                    <p role="main">{description}</p>
                 </div>
             </section>
         );

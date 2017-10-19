@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import Calendar from './Calendar';
 import EventDetailOverlay from './EventDetailOverlay';
-import {filterEventsByDay, getEventFromEvents, getDisplayDate} from '../utils';
+import {filterEventsByDay, getEventFromEvents} from '../utils';
 import DATA_SET from '../utils/data';
 import moment from 'moment';
 //import moment.js library to handle time
