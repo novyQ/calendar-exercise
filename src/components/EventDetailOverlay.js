@@ -30,12 +30,20 @@ export default class EventDetailOverlay extends PureComponent {
         });
 
         document.addEventListener('click', this.handleOutsideClick);
+
+        //component is supposed to mount immediately.
+        //setTimeout delays adding "load" class to give time for animation.
+        //not ideal, hacky way to fade-in
+        setTimeout(()=>{this.node.classList.add('event-detail-load')}, 0);
     }
 
     componentWillUnmount() {
+
         document.body.classList.remove('no-scroll');
 
         document.removeEventListener('click', this.handleOutsideClick);
+
+        this.node.classList.remove('event-detail-load');
     }
 
     render() {
@@ -65,17 +73,17 @@ export default class EventDetailOverlay extends PureComponent {
                         onClick={onClose}
                         role="button"
                     />
-                    <div>
+                    <div aria-label="Event starts at">
                         {displayDateTime}
                         <span
                             className={`event-detail-overlay__color time-slot-event--${color}`}
                             title={`Event label color: ${color}`}
                         />
                     </div>
-                    <h1 className="event-detail-overlay__title" role="title">
+                    <h1 className="event-detail-overlay__title" aria-label="Event title">
                         {title}
                     </h1>
-                    <p role="main">{description}</p>
+                    <p aria-label="Event description">{description}</p>
                 </div>
             </section>
         );
