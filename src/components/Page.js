@@ -49,8 +49,8 @@ export default class Page extends PureComponent {
 
     _handlePrev() {
 
-        const newMoment = moment( this.state.day );
-        newMoment.subtract( 1, "days" );
+        const newMoment = moment(this.state.day);
+        newMoment.subtract(1, "days");
 
         this.setState({
             day: newMoment
@@ -61,8 +61,8 @@ export default class Page extends PureComponent {
 
     _handleNext() {
 
-        const newMoment = moment( this.state.day );
-        newMoment.add( 1, "days" );
+        const newMoment = moment(this.state.day);
+        newMoment.add(1, "days");
 
         this.setState({
             day: newMoment
@@ -70,11 +70,11 @@ export default class Page extends PureComponent {
         // TODO: Update this.state.day to go forward 1 day so next button works
     }
 
-    parseDate( day ){
+    parseDate(day){
 
         const now = moment();
-        if( now.isSame( day, "day", "month", "year" ) ){
-            return day.format( "dddd, MMMM D, YYYY h:mm a zz");
+        if( now.isSame(day, "day", "month", "year" )){
+            return day.format("dddd, MMMM D, YYYY h:mm a zz");
         }
         else{
             return day.format("dddd, MMMM D, YYYY");
